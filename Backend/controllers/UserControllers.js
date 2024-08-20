@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const UserModel = require("../models/userModel");
+const jwt = require("jsonwebtoken");
 
 async function register(req, res) {
   const { username, email, password, mobileNumber, role } = req.body;
@@ -17,7 +18,7 @@ async function register(req, res) {
         role
       });
       await newUser.save();
-      return res.status(201).send("new user has been registered");
+      return res.status(201).send({msg:"new user has been registered",newUser});
     }
   } catch (error) {
     res.status(400).send(error);
@@ -27,16 +28,16 @@ async function register(req, res) {
 async function login(req, res) {
   try {
     const { email, password } = req.body;
-    const user = await User.findOne({ email });
-    if (!user || !(await user.comparePassword(password))) {
+    const user = await UserModel.findOne({ email });
+    if (user && (await user.comparePassword(password))) {
+      const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+      res.status(200).send({ User:email, accessToken: token });
+    } else {
       return res.status(400).send({ error: "Invalid login credentials" });
     }
-    const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, {
-      expiresIn: "1h",
-    });
-    res.status(200).send({ user, token });
   } catch (error) {
     res.status(500).send(error);
+    console.log(error);
   }
 }
 
