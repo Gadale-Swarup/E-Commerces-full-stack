@@ -2,11 +2,14 @@ import React, { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
+import useAuth from "../hooks/UseAuthorise";
 
 function Login() {
+  const { login, success} = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+  
 
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
@@ -15,23 +18,18 @@ function Login() {
   const handlePasswordChange = (e) => {
     setPassword(e.target.value);
   };
-
-  const handleSubmit = (e) => {
+  const  handleSubmit = async (e) => {
     e.preventDefault();
-    const payload = { email, password };
-    console.log(payload);
-
-    let userData = localStorage.getItem("user");
-    userData = JSON.parse(userData);
-
-    if (userData && email === userData.email && password === userData.password) {
-      toast.success("Login successfully");
-      setTimeout(() => {
-        navigate("/dashboard");
-      }, 1000);
-    } else {
-      toast.error("Invalid email or password!");
-    }
+    try {
+      await login({ email, password });
+      console.log(success)
+      if(success){
+        navigate('/dashboard');
+      }
+         
+      } catch (error) {
+        toast.error('Login failed');
+      }
   };
 
   return (
@@ -46,7 +44,7 @@ function Login() {
               </label>
               <input
                 type="text"
-                className="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full"
+                className="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full bg-white"
                 onChange={handleEmailChange}
                 value={email}
               />
@@ -55,7 +53,7 @@ function Login() {
               </label>
               <input
                 type="password"
-                className="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full"
+                className="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full bg-white"
                 onChange={handlePasswordChange}
                 value={password}
               />

@@ -4,6 +4,7 @@ const bodyParser=require('body-parser');
 const productRoutes=require('./routes/productRoute');
 const categoryRoutes = require('./routes/categoryRoutes');
 const userRoutes=require('./routes/userRoute');
+const cors = require('cors');
 require('dotenv').config();
 
 const app=express();
@@ -16,6 +17,7 @@ mongoose.connection.once('open',()=>{
     console.log('connected to MongoDB database');
 });
 
+app.use(cors());
 
 //userRoute
 app.use('/api/users',userRoutes);
