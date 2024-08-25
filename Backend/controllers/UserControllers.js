@@ -33,7 +33,7 @@ async function register(req, res) {
     if (!user) {
       const newUser = new UserModel({
         username,
-        email,
+        email,  
         password,
         mobileNumber,
         role,
@@ -45,10 +45,10 @@ async function register(req, res) {
         .status(201)
         .json({ message: "User registered successfully", success: true });
     } else {
-      res.status(400).json({ error: "User already exists", success: false });
+      res.status(400).json({ message: "User already exists", success: false });
     }
   } catch (error) {
-    res.status(500).json({ error: error.message, success: false });
+    res.status(500).json({ message: error.message, success: false });
   }
 }
 async function login(req, res) {
@@ -59,10 +59,10 @@ async function login(req, res) {
       const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
       res.status(200).send({ User:email, 'token': token , success: true });
     } else {
-      return res.status(400).send({ error: "Invalid login credentials" });
+      return res.status(400).send({ message: "Invalid login credentials" });
     }
   } catch (error) {
-    res.status(500).send({error: error.message,success: false});
+    res.status(500).send({message: error.message,success: false});
     console.log(error);
   }
 }

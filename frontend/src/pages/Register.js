@@ -1,62 +1,56 @@
 import React, { useState } from "react";
-import { ToastContainer,toast } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import { Link, useNavigate } from "react-router-dom";
-
 import useAuth from "../hooks/UseAuthorise";
 
 function Register() {
-  const Navigate = useNavigate();
-  const { successR } = useAuth(); 
+  const navigate = useNavigate();
   const { register } = useAuth();
   const [role, setRole] = useState("user");
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [mobileNumber, setMobileNumber] = useState("");
 
-  const roleChange = (e) => {
-    setRole(e.target.value);
-  };
-
-  const usernameChange = (e) => {
-    setUsername(e.target.value);
-  };
-
-  const emailChange = (e) => {
-    setEmail(e.target.value);
-  };
-
-  const passwordChange = (e) => {
-    setPassword(e.target.value);
-  };
-
-  const mobileNumberChange = (e) => {
-    setMobileNumber(e.target.value);
-  };
+  const roleChange = (e) => setRole(e.target.value);
+  const usernameChange = (e) => setUsername(e.target.value);
+  const emailChange = (e) => setEmail(e.target.value);
+  const passwordChange = (e) => setPassword(e.target.value);
+  const confirmPasswordChange = (e) => setConfirmPassword(e.target.value);
+  const mobileNumberChange = (e) => setMobileNumber(e.target.value);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      await register({ role, username, email, password, mobileNumber });
-      console.log(successR);
-      if (!successR) {
-       console.log("user registration failed",successR);
-      }else{
-        toast.success("User registered successfully");
-        Navigate("/login");
-      }
-    } catch (error) {
-      console.error("Register error:", error);
-      toast.error(error.response?.data?.msg || "Registration failed");
+
+    if (password !== confirmPassword) {
+      toast.error("Passwords do not match");
+      return;
+    }
+
+    const success = await register({
+      role,
+      username,
+      email,
+      password,
+      mobileNumber,
+    });
+
+    if (success) {
+      toast.success("Registered Successfully");
+      setTimeout(() => navigate("/login"), 1000);
+    } else {
+      toast.error("Registration failed");
     }
   };
+  
 
   return (
     <div>
       <div className="grid min-h-screen place-items-center">
         <div className="w-11/12 p-12 bg-white sm:w-8/12 md:w-1/2 lg:w-5/12">
           <h1 className="text-xl font-semibold">
-            Hello there?,{" "}
+            Hello there,{" "}
             <span className="font-normal">
               please fill in your information to continue
             </span>
@@ -69,7 +63,7 @@ function Register() {
               Role
             </label>
             <select
-              className="select select-bordered   max-w-xs text-gray-700 bg-gray-200 appearance-none focus:outline-none focus:bg-gray-300 focus:shadow-inner"
+              className="select select-bordered max-w-xs text-gray-700 bg-gray-200 appearance-none focus:outline-none focus:bg-gray-300 focus:shadow-inner"
               value={role}
               onChange={roleChange}
             >
@@ -174,6 +168,7 @@ function Register() {
               placeholder="********"
               autoComplete="new-password"
               className="block w-full p-3 mt-2 text-gray-700 bg-gray-200 appearance-none focus:outline-none focus:bg-gray-300 focus:shadow-inner"
+              onChange={confirmPasswordChange}
               required
             />
             <button
@@ -182,7 +177,7 @@ function Register() {
             >
               Sign up
             </button>
-            <Link to={"/login"}>
+            <Link to="/login">
               <p className="flex justify-between mt-4 text-xs text-gray-500 cursor-pointer hover:text-black">
                 Already registered?
               </p>

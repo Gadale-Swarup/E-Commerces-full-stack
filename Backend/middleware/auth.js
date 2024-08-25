@@ -1,4 +1,7 @@
-const jwt = require('jsonwebtoken');
+
+const jwt = require("jsonwebtoken");
+// const user = require("../routes/userRoute");
+
 
 const auth = (req, res, next) => {
   try {
