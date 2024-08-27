@@ -1,67 +1,39 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 
 const Dashborad = () => {
+  const [user, setUser] = useState({});
+  useEffect(() => {
+    async function getUserInfo() {
+      const token = localStorage.getItem('token')
+      try {
+        const response = await axios.post(
+          "http://localhost:5000/api/users/getUserInfo",
+          {},
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        console.log(response.data);
+        setUser(response.data.user);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    getUserInfo();
+  }, []);
+
   return (
-    <>
-      <div className="carousel carousel-center rounded-box">
-        <div className="carousel-item">
-          <img
-            src="https://img.daisyui.com/images/stock/photo-1559703248-dcaaec9fab78.webp"
-            alt="Pizza"
-          />
-        </div>
-        <div className="carousel-item">
-          <img
-            src="https://img.daisyui.com/images/stock/photo-1565098772267-60af42b81ef2.webp"
-            alt="Pizza"
-          />
-        </div>
-        <div className="carousel-item">
-          <img
-            src="https://img.daisyui.com/images/stock/photo-1572635148818-ef6fd45eb394.webp"
-            alt="Pizza"
-          />
-        </div>
-        <div className="carousel-item">
-          <img
-            src="https://img.daisyui.com/images/stock/photo-1494253109108-2e30c049369b.webp"
-            alt="Pizza"
-          />
-        </div>
-        <div className="carousel-item">
-          <img
-            src="https://img.daisyui.com/images/stock/photo-1550258987-190a2d41a8ba.webp"
-            alt="Pizza"
-          />
-        </div>
-        <div className="carousel-item">
-          <img
-            src="https://img.daisyui.com/images/stock/photo-1559181567-c3190ca9959b.webp"
-            alt="Pizza"
-          />
-        </div>
-        <div className="carousel-item">
-          <img
-            src="https://img.daisyui.com/images/stock/photo-1601004890684-d8cbf643f5f2.webp"
-            alt="Pizza"
-          />
-        </div>
-      </div>
-    </>
+    <div className="container">
+      <h2>Welcome to the Dashboard</h2>
+      {/* <p>This is a protected page accessible only to logged-in users.</p> */}
+      <h3>{user.name}</h3>
+      <h4>{user.email}</h4>
+      <h4>{user.role}</h4>
+    </div>
   );
 };
 
 export default Dashborad;
-
-// const three = data.slice(0,3)
-//   return (
-//     <div>
-//       <div className="carousel carousel-end rounded-box h-screen border-spacing-5">
-//         {three.map((product, index) => (
-//           <div key={index} className="carousel-item border-spacing-48">
-//             <img className="border-spacing-24" src={product.image} alt="Drink" />
-//           </div>
-//         ))}
-//       </div>
-//     </div>
-//   );

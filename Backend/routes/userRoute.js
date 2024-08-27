@@ -19,7 +19,7 @@ const router = express.Router();
 
 router.post('/register', userController.register);
 router.post('/login', userController.login);
-// router.post('/getUserInfo', authorize.auth, userController.userInformation);
+router.get('/getUserInfo',authorize.auth, userController.getUserInfo);
 
 module.exports = router;
 

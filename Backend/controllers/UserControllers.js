@@ -41,14 +41,12 @@ async function register(req, res) {
 
       await newUser.save();
 
-      res
-        .status(201)
-        .json({ message: "User registered successfully", success: true });
+      res.status(201).send({ message: "User registered successfully", success: true });
     } else {
-      res.status(400).json({ message: "User already exists", success: false });
+      res.status(400).send({ message: "User already exists", success: false });
     }
   } catch (error) {
-    res.status(500).json({ message: error.message, success: false });
+    res.status(500).send({ message: error.message, success: false });
   }
 }
 async function login(req, res) {
@@ -56,10 +54,11 @@ async function login(req, res) {
     const { email, password } = req.body;
     const user = await UserModel.findOne({ email });
     if (user && (await user.comparePassword(password))) {
-      const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+      const payload = {user:{ id: user.id ,role:user.role}}
+      const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1h' });
       res.status(200).send({ User:email, 'token': token , success: true });
     } else {
-      return res.status(400).send({ message: "Invalid login credentials" });
+      return res.status(400).send({ message: "Invalid login credentials", success: false });
     }
   } catch (error) {
     res.status(500).send({message: error.message,success: false});
@@ -67,4 +66,19 @@ async function login(req, res) {
   }
 }
 
-module.exports = { register, login };
+async function getUserInfo(req,res){
+  const id = req.user.id
+  try {
+    const user = await UserModel.findOne({id:id});
+    console.log(user);
+    if(!user){
+        res.status(400).send({ message: 'User does not found.',success:false });
+    }else{
+        res.status(202).send({user:user, success:true})
+    }     
+    } catch (error) {
+        res.status(500).send({ error });
+    }
+  }
+
+module.exports = { register, login,getUserInfo };

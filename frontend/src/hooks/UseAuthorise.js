@@ -1,67 +1,64 @@
-import { useState, useEffect } from 'react';
-import axios from 'axios';
-import { toast } from 'react-toastify';
-// import { useNavigate } from 'react-router-dom'; // Updated to use useNavigate
+import { useState, useEffect } from "react";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 const useAuth = () => {
   const [user, setUser] = useState(null);
-  const [success, SetSuccess] = useState(null);
-  const [successR, SetRegisterSuccess] = useState(null);
-  const [token, setToken] = useState(localStorage.getItem('token'));
-
-  // const navigate = useNavigate(); // Updated to use navigate for navigation
+  const [success, setSuccess] = useState();
+  const [registerSuccess, setRegisterSuccess] = useState();
+  const [token, setToken] = useState();
 
   useEffect(() => {
     if (token) {
-      localStorage.setItem('token', token);
+      localStorage.setItem("token", token);
     } else {
-      localStorage.removeItem('token');
+      localStorage.removeItem("token");
     }
-  }, [token]);
-
+  }, [token, user]);
 
   const register = async (userData) => {
     try {
-      const response = await axios.post('http://localhost:5000/api/users/register', userData);
-      const { successR } = response.data;
-      SetRegisterSuccess(successR);
-      toast.success(response.data.message);
-      console.log(response.data.success);
-      console.log(response.data.message);
-      console.log(response.data);
+      const response = await axios.post(
+        "http://localhost:5000/api/users/register",
+        userData
+      );
+
+      if (response.data.success === true) {
+        setRegisterSuccess(response.data.success);
+        toast.success(response.data.message);
+      } else {
+        toast.error("Registration failed");
+      }
     } catch (error) {
-      console.log(successR)
-      toast.error(error.response?.data?.error || 'Registration failed');
+      toast.error(error.response?.data?.error || "registration failed");
     }
   };
 
   const login = async (userData) => {
     try {
-      const response = await axios.post('http://localhost:5000/api/users/login', userData);
-      const { token, success, user } = response.data;
-
+      const response = await axios.post("http://localhost:5000/api/users/login",userData);
+      const { token } = response.data;
       setToken(token);
-      setUser(user);
-      SetSuccess(success);
-
-      console.log('Login successful, token stored.');
-      toast.success('Logged in successfully');
+    //   setUser(user);
+      setSuccess(response.data.success);
+      toast.success("Logged in successfully");
     } catch (error) {
-      console.error('Login error:', error);
-      toast.error(error.response?.data?.msg || 'Login failed');
+      toast.error(error.response.data.message || "Login failed");
     }
   };
 
   const logout = () => {
     setToken(null);
     setUser(null);
+    setSuccess(false);
+    setRegisterSuccess(false);
   };
 
   return {
     user,
     token,
-    successR,
     success,
+    registerSuccess, // Indicates if registration was successful
     register,
     login,
     logout,

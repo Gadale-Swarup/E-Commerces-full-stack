@@ -2,10 +2,12 @@ import React, { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import { Link, useNavigate } from "react-router-dom";
 import useAuth from "../hooks/UseAuthorise";
+import "react-toastify/dist/ReactToastify.css";
 
 function Register() {
   const navigate = useNavigate();
   const { register } = useAuth();
+
   const [role, setRole] = useState("user");
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
@@ -13,37 +15,22 @@ function Register() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [mobileNumber, setMobileNumber] = useState("");
 
-  const roleChange = (e) => setRole(e.target.value);
-  const usernameChange = (e) => setUsername(e.target.value);
-  const emailChange = (e) => setEmail(e.target.value);
-  const passwordChange = (e) => setPassword(e.target.value);
-  const confirmPasswordChange = (e) => setConfirmPassword(e.target.value);
-  const mobileNumberChange = (e) => setMobileNumber(e.target.value);
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     if (password !== confirmPassword) {
       toast.error("Passwords do not match");
       return;
     }
-
-    const success = await register({
-      role,
-      username,
-      email,
-      password,
-      mobileNumber,
-    });
-
-    if (success) {
+    const requestData = { role, username, email, password, mobileNumber };
+    console.log("Request Data:", requestData);
+    try {
+      await register(requestData);
       toast.success("Registered Successfully");
-      setTimeout(() => navigate("/login"), 1000);
-    } else {
-      toast.error("Registration failed");
+      navigate("/login");
+    } catch (error) {
+      toast.error("An error occurred during registration");
     }
   };
-  
 
   return (
     <div>
@@ -63,9 +50,10 @@ function Register() {
               Role
             </label>
             <select
+              id="role"
               className="select select-bordered max-w-xs text-gray-700 bg-gray-200 appearance-none focus:outline-none focus:bg-gray-300 focus:shadow-inner"
               value={role}
-              onChange={roleChange}
+              onChange={(e) => setRole(e.target.value)}
             >
               <option value="user">User</option>
               <option value="admin">Admin</option>
@@ -85,7 +73,8 @@ function Register() {
                   placeholder="John"
                   autoComplete="given-name"
                   className="block w-full p-3 mt-2 text-gray-700 bg-gray-200 appearance-none focus:outline-none focus:bg-gray-300 focus:shadow-inner"
-                  onChange={usernameChange}
+                  onChange={(e) => setUsername(e.target.value)}
+                  value={username}
                   required
                 />
               </span>
@@ -120,7 +109,8 @@ function Register() {
               placeholder="john.doe@company.com"
               autoComplete="email"
               className="block w-full p-3 mt-2 text-gray-700 bg-gray-200 appearance-none focus:outline-none focus:bg-gray-300 focus:shadow-inner"
-              onChange={emailChange}
+              onChange={(e) => setEmail(e.target.value)}
+              value={email}
               required
             />
             <label
@@ -136,7 +126,8 @@ function Register() {
               placeholder="9922443377"
               autoComplete="tel"
               className="block w-full p-3 mt-2 text-gray-700 bg-gray-200 appearance-none focus:outline-none focus:bg-gray-300 focus:shadow-inner"
-              onChange={mobileNumberChange}
+              onChange={(e) => setMobileNumber(e.target.value)}
+              value={mobileNumber}
               required
             />
             <label
@@ -152,7 +143,8 @@ function Register() {
               placeholder="********"
               autoComplete="new-password"
               className="block w-full p-3 mt-2 text-gray-700 bg-gray-200 appearance-none focus:outline-none focus:bg-gray-300 focus:shadow-inner"
-              onChange={passwordChange}
+              onChange={(e) => setPassword(e.target.value)}
+              value={password}
               required
             />
             <label
@@ -168,7 +160,8 @@ function Register() {
               placeholder="********"
               autoComplete="new-password"
               className="block w-full p-3 mt-2 text-gray-700 bg-gray-200 appearance-none focus:outline-none focus:bg-gray-300 focus:shadow-inner"
-              onChange={confirmPasswordChange}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              value={confirmPassword}
               required
             />
             <button
