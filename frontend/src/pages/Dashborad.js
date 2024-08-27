@@ -7,9 +7,7 @@ const Dashborad = () => {
     async function getUserInfo() {
       const token = localStorage.getItem('token')
       try {
-        const response = await axios.post(
-          "http://localhost:5000/api/users/getUserInfo",
-          {},
+        const response = await axios.post("http://localhost:5000/api/users/getUserInfo",{},
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -17,7 +15,7 @@ const Dashborad = () => {
           }
         );
         console.log(response.data);
-        setUser(response.data.user);
+        setUser(response.data);
       } catch (error) {
         console.log(error);
       }
