@@ -5,6 +5,7 @@ import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 // import useAuth from "../hooks/UseAuthorise";
 
+
 function Login() {
   // const { login, success } = useAuth();
   const [email, setEmail] = useState("");
@@ -12,31 +13,34 @@ function Login() {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
-
+  
   const login = async (userData) => {
     try {
-      const response = await axios.post('http://localhost:5000/api/users/login', userData);
+      const response = await axios.post(
+        "http://localhost:5000/api/users/login",
+        userData
+      );
       console.log(response.data);
       const { token } = response.data;
-      localStorage.setItem('token', token);
+      localStorage.setItem("token", token);
       setToken(token);
-      console.log('Login successful, token stored.');
+      console.log("Login successful, token stored.");
       // console.log(token);
-      toast.success('Logged in successfully');
+      toast.success("Logged in successfully");
     } catch (error) {
-      console.error('Login error:', error);
-      toast.error(error.response?.data?.message || 'Login failed');
+      console.error("Login error:", error);
+      toast.error(error.response?.data?.message || "Login failed");
     }
   };
 
-  const  handleSubmit = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-        await login({ email, password });
-        navigate('/dashboard'); 
-      } catch (error) {
-        toast.error('Login failed');
-      }
+      await login({ email, password });
+      navigate("/dashboard");
+    } catch (error) {
+      toast.error("Login failed");
+    }
   };
 
   return (
@@ -87,7 +91,7 @@ function Login() {
                 <div className="text-center sm:text-right whitespace-nowrap">
                   <button
                     className="transition duration-200 mx-5 px-5 py-4 font-normal text-sm rounded-lg text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-200 focus:ring-2 focus:ring-gray-200 focus:ring-opacity-50 ring-inset"
-                    onClick={() => navigate("/register")}
+                    onClick={() => navigate("/")}
                   >
                     Register Now
                   </button>
@@ -95,23 +99,7 @@ function Login() {
               </div>
             </div>
           </div>
-          <div className="py-5">
-            <div className="grid grid-cols-2 gap-1">
-              <div className="text-center sm:text-left whitespace-nowrap">
-                <button className="transition duration-200 mx-5 px-5 py-4 font-normal text-sm rounded-lg text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-200 focus:ring-2 focus:ring-gray-200 focus:ring-opacity-50 ring-inset">
-                  Forgot Password?
-                </button>
-              </div>
-              <div className="text-center sm:text-right whitespace-nowrap">
-                <button
-                  className="transition duration-200 mx-5 px-5 py-4 font-normal text-sm rounded-lg text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-200 focus:ring-2 focus:ring-gray-200 focus:ring-opacity-50 ring-inset"
-                  onClick={() => navigate("/register")}
-                >
-                  Register Now
-                </button>
-              </div>
-            </div>
-          </div>
+
         </div>
       </div>
       <ToastContainer />

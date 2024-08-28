@@ -9,8 +9,12 @@ const useAuth = () => {
   const [token, setToken] = useState();
 
   useEffect(() => {
+    const token = localStorage.getItem("token");
     if (token) {
       localStorage.setItem("token", token);
+    }
+    if (!token) {
+      console.log("No token Found");
     } else {
       localStorage.removeItem("token");
     }
@@ -33,32 +37,29 @@ const useAuth = () => {
       toast.error(error.response?.data?.error || "registration failed");
     }
   };
-
   const login = async (userData) => {
     try {
-      const response = await axios.post("http://localhost:5000/api/users/login",userData);
+      const response = await axios.post(
+        "http://localhost:5000/api/users/login",
+        userData
+      );
       const { token } = response.data;
       setToken(token);
-    //   setUser(user);
       setSuccess(response.data.success);
       toast.success("Logged in successfully");
     } catch (error) {
       toast.error(error.response.data.message || "Login failed");
     }
   };
-
   const logout = () => {
     setToken(null);
     setUser(null);
-    setSuccess(false);
-    setRegisterSuccess(false);
   };
-
   return {
     user,
     token,
     success,
-    registerSuccess, // Indicates if registration was successful
+    registerSuccess,
     register,
     login,
     logout,
