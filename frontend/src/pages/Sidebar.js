@@ -7,7 +7,7 @@ const Sidebar = ({ user,logout }) => {
 
   return (
     <aside
-      className={`relative bg-white-200 h-screen p-5 transition-all duration-300 flex flex-col text-md font-semibold ${
+      className={`relative bg-white-200 h-screen p-5 transition-all  border-2 border-gray duration-300 flex flex-col text-md font-semibold ${
         sidebarOpen ? "w-72" : "w-12"
       }`}
     >
@@ -35,7 +35,7 @@ const Sidebar = ({ user,logout }) => {
       </button>
 
       {/* Sidebar header */}
-      <div className="inline-block py-2 mb-2"
+      <div className="inline-block py-2 mb-2 "
       style={{ display: sidebarOpen ? "block" : "none" }}
       >
          <img

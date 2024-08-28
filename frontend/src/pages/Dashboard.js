@@ -39,7 +39,7 @@ const Dashboard = () => {
   
     getUserInfo();
   }, []);
-  
+
   const logout =()=>{
     Navigate('/login')
     localStorage.removeItem("token");
