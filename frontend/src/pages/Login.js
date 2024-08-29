@@ -13,7 +13,7 @@ function Login() {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
-  
+
   const login = async (userData) => {
     try {
       const response = await axios.post(
@@ -25,7 +25,7 @@ function Login() {
       localStorage.setItem("token", token);
       setToken(token);
       console.log("Login successful, token stored.");
-      // console.log(token);
+      console.log(token);
       toast.success("Logged in successfully");
     } catch (error) {
       console.error("Login error:", error);

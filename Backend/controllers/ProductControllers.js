@@ -2,7 +2,7 @@ const Product = require("../models/productModel");
 const Category = require("../models/category");
 
 async function createProduct(req, res) {
-    const { ProductName, category, price, available, quantity, createdBy } = req.body;
+    const { ProductName,description,image, category, price, available, quantity, createdBy } = req.body;
     try {
       // Check if the category exists
       const categoryExists = await Category.findById(category);
@@ -19,7 +19,9 @@ async function createProduct(req, res) {
       // Create a new product
       const newProduct = new Product({
         ProductName,
+        description,
         category,
+        image,
         price,
         available,
         quantity,
@@ -41,7 +43,7 @@ async function updateProductById(req, res) {
   try {
     const product = await Product.findByIdAndUpdate(
       req.params.id,
-      { ProductName, category, price, quantity },
+      { ProductName,description, category, price, quantity },
       { new: true }
     );
     if (!product) {

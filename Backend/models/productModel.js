@@ -5,6 +5,10 @@ const productSchema=new mongoose.Schema({
         type:String,
         required:true
     },
+    description:{
+        type:String,
+        required:true
+    },
     category:{
         type:mongoose.Schema.Types.ObjectId,
         ref:'Category',
@@ -21,6 +25,10 @@ const productSchema=new mongoose.Schema({
     quantity:{
         type:Number,
         required:true
+    },
+    image:{
+        type:String,
+        required:false
     },
     createdBy:{
         type:mongoose.Schema.Types.ObjectId,

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 // import useAuth from "../hooks/UseAuthorise";
 
 const Sidebar = ({ user,logout }) => {
@@ -7,7 +8,7 @@ const Sidebar = ({ user,logout }) => {
 
   return (
     <aside
-      className={`relative bg-white-200 h-screen p-5 transition-all shadow-lg border-2 border-gray duration-300 flex flex-col text-md font-semibold ${
+      className={`relative bg-white-200 h-full p-5 transition-all shadow-lg border-2 border-gray duration-300 flex flex-col text-md font-semibold ${
         sidebarOpen ? "w-72" : "w-12"
       }`}
     >
@@ -33,7 +34,7 @@ const Sidebar = ({ user,logout }) => {
           />
         </svg>
       </button>
-
+          {/* {user:} */}
       {/* Sidebar header */}
       <div className="inline-block py-2 mb-2 "
       style={{ display: sidebarOpen ? "block" : "none" }}
@@ -58,41 +59,81 @@ const Sidebar = ({ user,logout }) => {
       </div>
 
       {/* Sidebar menu */}
-      <ul className="flex flex-col space-y-1 overflow-y-auto overflow-x-hidden scrollbar"
-      style={{ display: sidebarOpen ? "block" : "none" }}
-      >
+      {user.role==="admin"?(
+        <ul className="flex flex-col space-y-1 overflow-y-auto overflow-x-hidden scrollbar"style={{ display: sidebarOpen ? "block" : "none" }} >
         <li className="group">
-          <a
-            href="l"
-            className="flex items-center space-x-2 py-2 px-4 rounded-md text-black hover:bg-sky-300 transition-colors duration-300"
-          >
-            <span>🏠</span>
+        <Link to='*'>
+            <div className="flex items-center space-x-2 py-2 px-4 rounded-md text-black hover:bg-sky-300 transition-colors duration-300">
+              <span>📱</span>
+              <span style={{ display: sidebarOpen ? "block" : "none" }}>
+            Admin Profile
+              </span>
+            </div>
+          </Link>
+          <hr className="border-t border-gray-300" style={{ display: sidebarOpen ? "block" : "none" }}/>
+          <Link to='addproduct'>
+            <div className="flex items-center space-x-2 py-2 px-4 rounded-md text-black hover:bg-sky-300 transition-colors duration-300">
+              <span>📱</span>
+              <span style={{ display: sidebarOpen ? "block" : "none" }}>
+             Add Products
+              </span>
+            </div>
+          </Link>
+          <hr className="border-t border-gray-300" style={{ display: sidebarOpen ? "block" : "none" }}/>
+            <Link to='*'>
+          <div className="flex items-center space-x-2 py-2 px-4 rounded-md text-black hover:bg-sky-300 transition-colors duration-300">
+            <span>🛒</span>
             <span style={{ display: sidebarOpen ? "block" : "none" }}>
-              Home
+              Add Category
             </span>
-          </a>
+          </div>
+          </Link>
+          <hr
+            className="border-t border-gray-300"
+            style={{ display: sidebarOpen ? "block" : "none" }}/>
+        </li>
+      </ul>
+      ):(
+      <ul className="flex flex-col space-y-1 overflow-y-auto overflow-x-hidden scrollbar"style={{ display: sidebarOpen ? "block" : "none" }} >
+        <li className="group">
+          <Link to='products'>
+            <div className="flex items-center space-x-2 py-2 px-4 rounded-md text-black hover:bg-sky-300 transition-colors duration-300">
+              <span>📱</span>
+              <span style={{ display: sidebarOpen ? "block" : "none" }}>
+              Products
+              </span>
+            </div>
+          </Link>
+          <hr className="border-t border-gray-300" style={{ display: sidebarOpen ? "block" : "none" }}/>
+            <Link to='showcart'>
+          <div className="flex items-center space-x-2 py-2 px-4 rounded-md text-black hover:bg-sky-300 transition-colors duration-300">
+            <span>🛒</span>
+            <span style={{ display: sidebarOpen ? "block" : "none" }}>
+              Cart
+            </span>
+          </div>
+            </Link>
           <hr
             className="border-t border-gray-300"
             style={{ display: sidebarOpen ? "block" : "none" }}
           />
         </li>
+      
         {/* Additional main menu items */}
         <li className="group">
-          <a
-            href="l"
-            className="flex items-center space-x-2 py-2 px-4 rounded-md text-black hover:bg-sky-300 transition-colors duration-300"
+          <div className="flex items-center space-x-2 py-2 px-4 rounded-md text-black hover:bg-sky-300 transition-colors duration-300"
           >
             <span style={{ display: sidebarOpen ? "block" : "none" }}>
-              {user.role}
+              {user.role || "Role"}
             </span>
-          </a>
+          </div>
         </li>
         {/* Add more items as needed */}
       </ul>
-
+    )}
       {/* Sidebar Footer */}
       <div
-        className="mt-auto py-4 px-2 bg-mint-white  -400 rounded-lg shadow-sm"
+        className="mt-auto h-48 py-4 px-2 bg-mint-white  -400 rounded-lg shadow-sm"
         style={{ display: sidebarOpen ? "block" : "none" }}
       >
         <div className="flex items-center space-x-3">

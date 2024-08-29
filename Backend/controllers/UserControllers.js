@@ -54,7 +54,7 @@ async function login(req, res) {
     const { email, password } = req.body;
     const user = await UserModel.findOne({ email });
     if (user && (await user.comparePassword(password))) {
-      const payload = {user:{ id: user.id ,role:user.role}}
+      const payload = { _id: user._id, role: user.role }
       const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1h' });
       res.status(200).send({ User:email, 'token': token , success: true });
     } else {
@@ -67,18 +67,19 @@ async function login(req, res) {
 }
 
 async function getUserInfo(req,res){
-  const id = req.user.id
+  const id = req.user._id;
   try {
-    const user = await UserModel.findOne({id:id});
+    const user = await UserModel.findOne({_id:id});
     console.log(user);
     if(!user){
         res.status(400).send({ message: 'User does not found.',success:false });
     }else{
         res.status(202).send({user:user, success:true})
+        console.log(user);
     }     
     } catch (error) {
         res.status(500).send({ error });
     }
   }
 
-module.exports = { register, login,getUserInfo };
+module.exports = { register, login, getUserInfo };

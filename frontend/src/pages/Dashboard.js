@@ -2,11 +2,15 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Sidebar from "./Sidebar";
 import { useNavigate } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
+import ProductCard from "../components/Products/ProductCard";
+import ShowCart from "../components/Products/ShowCart";
+import AddProduct from "../components/Category/AddProduct";
 // import useAuth from "../hooks/UseAuthorise";
 
 const Dashboard = () => {
   const [user, setUser] = useState({});
-  const Navigate =useNavigate();
+  const Navigate = useNavigate();
   // const {logout}=useAuth();
 
   useEffect(() => {
@@ -36,27 +40,36 @@ const Dashboard = () => {
         );
       }
     }
-  
+
     getUserInfo();
   }, []);
 
-  const logout =()=>{
-    Navigate('/login')
+  const logout = () => {
+    Navigate("/login");
     localStorage.removeItem("token");
     setUser(null);
-  }
+  };
   return (
-    <div className="flex">
-      <div>
-        <Sidebar user={user} logout={logout} />
+    <>
+      <div className="flex h-screen">
+        <div>
+          <Sidebar user={user} logout={logout} />
+        </div>
+        {/* <div className="container ml-5">
+          <h2>Welcome to the Dashboard</h2>
+          <h3>Name:{user.username}</h3>
+          <h4>Email:{user.email}</h4>
+          <h4>Role:{user.role}</h4>
+        </div> */}
+        <div className="container ml-5">
+        <Routes>
+          <Route path="products" element={<ProductCard/>} />
+          <Route path="showcart" element={<ShowCart/>} />
+          <Route path="addproduct" element={<AddProduct/>} />
+        </Routes>
+        </div>
       </div>
-      <div className="container ml-5">
-        <h2>Welcome to the Dashboard</h2>
-        <h3>Name:{user.username}</h3>
-        <h4>Email:{user.email}</h4>
-        <h4>Role:{user.role}</h4>
-      </div>
-    </div>
+    </>
   );
 };
 
