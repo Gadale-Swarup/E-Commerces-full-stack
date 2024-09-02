@@ -80,7 +80,7 @@ const Sidebar = ({ user,logout }) => {
             </div>
           </Link>
           <hr className="border-t border-gray-300" style={{ display: sidebarOpen ? "block" : "none" }}/>
-            <Link to='*'>
+            <Link to='addcategory'>
           <div className="flex items-center space-x-2 py-2 px-4 rounded-md text-black hover:bg-sky-300 transition-colors duration-300">
             <span>🛒</span>
             <span style={{ display: sidebarOpen ? "block" : "none" }}>

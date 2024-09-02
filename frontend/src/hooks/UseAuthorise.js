@@ -39,15 +39,25 @@ const useAuth = () => {
       toast.error(error.response?.data?.error || "registration failed");
     }
   };
-  const login = async (userData) => {
+    const login = async (userData) => {
     try {
-      const response = await axios.post("http://localhost:5000/api/users/login",userData);
-      const { token } = response.data;
-      setToken(token);
+      const response = await axios.post(
+        "http://localhost:5000/api/users/login",
+        userData
+      );
       setSuccess(response.data.success);
+      console.log(success);
+      console.log(response.data);
+      const { token } = response.data;
+      localStorage.setItem("token", token);
+      setToken(token);
+      console.log("Login successful, token stored.");
+      console.log(token);
       toast.success("Logged in successfully");
+      return success;
     } catch (error) {
-      toast.error(error.response.data.message || "Login failed");
+      console.error("Login error:", error);
+      toast.error(error.response?.data?.message || "Login failed");
     }
   };
   const logout = () => {

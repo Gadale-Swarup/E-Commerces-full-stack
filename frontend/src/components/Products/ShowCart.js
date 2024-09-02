@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-const ShowCart = () => {
+const ShowCart = ({cart=[]}) => {
   const [quantity, setQuantity] = useState(1);
   const incrementQuantity = () => {
     setQuantity((prevQuantity) => prevQuantity + 1);

@@ -2,13 +2,16 @@ const Product = require("../models/productModel");
 const Category = require("../models/category");
 
 async function createProduct(req, res) {
-    const { ProductName,description,image, category, price, available, quantity, createdBy } = req.body;
+    
     try {
+      const { ProductName,description,image, category, price, available, quantity, userId } = req.body;
+    const user = req.user._id;
       // Check if the category exists
       const categoryExists = await Category.findById(category);
       if (!categoryExists) {
         return res.status(400).send({ error: "Invalid Category" });
       } 
+      
   
       // Check if a product with the same name already exists
       const product = await Product.findOne({ ProductName });
@@ -25,7 +28,7 @@ async function createProduct(req, res) {
         price,
         available,
         quantity,
-        createdBy,
+        userId:user,
       });
   
       // Save the new product to the database
@@ -62,10 +65,10 @@ async function deleteProductById(req, res) {
     if (!product) {
       return res.status(404).send({ error: "Product not found" });
     }
-    res.json({ msg: "Product deleted" });
+    res.json({ msg: "Product deleted" ,success: true });
   } catch (error) {
     console.log(error);
-    res.status(500).send({ error: "Something went wrong" });
+    res.status(500).send({ error: "Something went wrong",success: false });
   }
 }
 

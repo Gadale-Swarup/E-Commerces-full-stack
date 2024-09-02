@@ -1,8 +1,19 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 const ProductCard = () => {
   const [products, setProducts] = useState([]);
+  const [cart ,setCart]=useState([]);
+
+  const AddCart =()=>{
+    const item = cart.find(item=>item.id===products.id);
+    if(item){
+      setCart(cart.map(item=>item.id===products.id? {...item, quantity: item.quantity+1}:item));
+    }else{
+      setCart([...cart,{...products, quantity: 1}]);
+    }
+  }
 
   useEffect(() => {
     const getProducts = async () => {
@@ -23,7 +34,7 @@ const ProductCard = () => {
       }
     };
     getProducts();
-  }, []);
+  });
 
   return (
     <>
@@ -31,7 +42,7 @@ const ProductCard = () => {
       {products.map((prod,index)=>(
       <div key={index} className="container">
         <div className="max-w-xs w-full bg-gray-900 shadow-lg rounded-xl p-6">
-          <div className="flex flex-col">
+          <div className="flex flex-col ">
             <div className="relative h-62 w-full mb-3">
               <div className="absolute flex flex-col top-0 right-0 p-3">
                 <button className="transition ease-in duration-300 bg-gray-800 hover:text-purple-500 shadow hover:shadow-md text-gray-500 rounded-full w-8 h-8 text-center p-1">
@@ -54,7 +65,7 @@ const ProductCard = () => {
               <img
                 src={prod.image}
                 alt="Just a flower"
-                className="w-full object-fill rounded-2xl"
+                className="w-full h-72 object-fill rounded-2xl"
               />
             </div>
             <div className="flex-auto justify-evenly">
@@ -77,8 +88,8 @@ const ProductCard = () => {
                   <h2 className="text-lg mr-auto cursor-pointer text-gray-200 hover:text-purple-500 truncate">
                     {prod.ProductName}
                   </h2>
-                  <div className="flex items-center bg-green-400 text-white text-xs px-2 py-1 ml-3 rounded-lg">
-                    INSTOCK
+                  <div className="flex items-center bg-green-400 text-white text-sm px-2 py-1 ml-3 rounded-lg">
+                    {prod.quantity}
                   </div>
                 </div>
               </div>
@@ -86,11 +97,16 @@ const ProductCard = () => {
                ${prod.price}
               </div>
               <div className="flex space-x-2 text-sm font-medium justify-start pt-3">
-                <button className="transition ease-in duration-300 inline-flex items-center text-sm font-medium mb-2 md:mb-0 bg-purple-500 px-5 py-2 hover:shadow-lg tracking-wider text-white rounded-full hover:bg-purple-600">
-                  <span>Add Cart</span>
-                </button>
+                <Link to='../showcart'>
                 <button className="transition ease-in duration-300 inline-flex items-center text-sm font-medium mb-2 md:mb-0 bg-purple-500 px-5 py-2 hover:shadow-lg tracking-wider text-white rounded-full hover:bg-purple-600">
                   <span>Show Cart</span>
+                </button>
+                </Link>
+                <button 
+                className="transition ease-in duration-300 inline-flex items-center text-sm font-medium mb-2 md:mb-0 bg-purple-500 px-5 py-2 hover:shadow-lg tracking-wider text-white rounded-full hover:bg-purple-600"
+                onClick={AddCart}
+                >
+                  <span>Add Cart</span>
                 </button>
                 
               </div>

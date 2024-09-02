@@ -5,7 +5,8 @@ import { useNavigate } from "react-router-dom";
 import { Route, Routes } from "react-router-dom";
 import ProductCard from "../components/Products/ProductCard";
 import ShowCart from "../components/Products/ShowCart";
-import AddProduct from "../components/Category/AddProduct";
+import AddProduct from "../components/Products/AddProduct";
+import AddCategory from "../components/Category/AddCategory";
 // import useAuth from "../hooks/UseAuthorise";
 
 const Dashboard = () => {
@@ -65,7 +66,8 @@ const Dashboard = () => {
         <Routes>
           <Route path="products" element={<ProductCard/>} />
           <Route path="showcart" element={<ShowCart/>} />
-          <Route path="addproduct" element={<AddProduct/>} />
+          <Route path="addproduct" element={<AddProduct user={user}/>} />
+          <Route path="addcategory" element={<AddCategory/>} />
         </Routes>
         </div>
       </div>

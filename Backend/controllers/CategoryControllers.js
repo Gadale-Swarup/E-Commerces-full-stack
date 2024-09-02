@@ -4,16 +4,17 @@ const categories = require('../models/category');
 
 async function createCategory(req,res){
     const { CategoryName, createdBy, createdAt } = req.body;
+    const user =req.user._id;
     console.log(req.body);
     try{
         const category = await categories.findOne({CategoryName})
         if(category){
-            return res.status(400).send('Category already exists');
+            return res.status(400).send({message:'Category already exists'});
             
         }else{
             const newCategory = new categories({
                 CategoryName,
-                createdBy,
+                createdBy:user,
                 createdAt
             })
             await newCategory.save();
@@ -44,8 +45,8 @@ async function deleteCategoryById(req,res){
 
 async function getCategories(req,res){
     try{
-        const categories = await categories.find();
-        res.send(categories);
+        const category = await categories.find();
+        res.send(category);
     }catch (error){
         res.status(400).send(error);
     }
