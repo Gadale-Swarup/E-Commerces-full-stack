@@ -46,17 +46,17 @@ const AddCategory = () => {
     try {
       const response = await axios.post(
         "http://localhost:5000/api/categories/addcategory",
-        { CategoryName: categoryName }, // Payload with category name
+        { CategoryName: categoryName }, 
         {
           headers: {
             Authorization: `Bearer ${token}`,
-            'Content-Type': 'application/json', // Set the content type for JSON
+            'Content-Type': 'application/json', 
           },
         }
       );
         setCategories((prevCategories) => [
           ...prevCategories,
-          response.data, // Assuming the API returns the added category
+          response.data, 
         ]);
         setCategoryName('');
         toast.success('Category successfully added');
