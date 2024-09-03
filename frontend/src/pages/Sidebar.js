@@ -19,20 +19,21 @@ const Sidebar = ({ user,logout }) => {
       >
         {/* SVG icon */}
         <svg
-          className={`h-6 w-6 transform transition-transform duration-300 ${
-            sidebarOpen ? "rotate-270" : "rotate-90"
-          }`}
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="2"
-            d="M19 9l-7 7-7-7"
-          />
-        </svg>
+  className={`h-6 w-6 transform transition-transform duration-300 ${
+    sidebarOpen ? "rotate-0" : "rotate-90"
+  }`}
+  fill="none"
+  viewBox="0 0 24 24"
+  stroke="currentColor"
+>
+  <path
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    strokeWidth="2"
+    d="M19 9l-7 7-7-7"
+  />
+</svg>
+
       </button>
           {/* {user:} */}
       {/* Sidebar header */}
@@ -85,6 +86,17 @@ const Sidebar = ({ user,logout }) => {
             <span>🛒</span>
             <span style={{ display: sidebarOpen ? "block" : "none" }}>
               Add Category
+            </span>
+          </div>
+          </Link>
+          <hr
+            className="border-t border-gray-300"
+            style={{ display: sidebarOpen ? "block" : "none" }}/>
+            <Link to='updatecategory'>
+          <div className="flex items-center space-x-2 py-2 px-4 rounded-md text-black hover:bg-sky-300 transition-colors duration-300">
+            <span>🛒</span>
+            <span style={{ display: sidebarOpen ? "block" : "none" }}>
+              Update Category
             </span>
           </div>
           </Link>

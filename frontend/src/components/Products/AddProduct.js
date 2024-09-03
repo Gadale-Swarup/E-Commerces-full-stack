@@ -61,7 +61,7 @@ const AddProduct = ({ user }) => {
     };
 
     try {
-      await axios.post("http://localhost:5000/api/products/addproduct", productData, {
+     const response= await axios.post("http://localhost:5000/api/products/addproduct", productData, {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json", // Set the content type to JSON
@@ -76,6 +76,8 @@ const AddProduct = ({ user }) => {
       setQuantity("");
       setDescription("");
       setError("");
+      toast.success(response.data.msg)
+
     } catch (err) {
       console.error("Error adding product:", err.response ? err.response.data : err.message);
       setError("Error adding product. Please try again.");

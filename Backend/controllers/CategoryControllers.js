@@ -26,7 +26,8 @@ async function createCategory(req,res){
 }
 
 async function updateCategoryById(req,res){
-    const { id } = req.params.id;
+    const id = req.params.id;
+    console.log(id)
     const category = await categories.findByIdAndUpdate(id, req.body);
     if(!category){
         return res.status(404).send('Category not found');
@@ -35,7 +36,7 @@ async function updateCategoryById(req,res){
 }
 
 async function deleteCategoryById(req,res){
-    const { id } = req.params.id;
+    const  id  = req.params.id;
     const category = await categories.findByIdAndRemove(id);
     if(!category){
         return res.status(404).send('Category not found');

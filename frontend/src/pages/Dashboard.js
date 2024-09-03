@@ -7,6 +7,7 @@ import ProductCard from "../components/Products/ProductCard";
 import ShowCart from "../components/Products/ShowCart";
 import AddProduct from "../components/Products/AddProduct";
 import AddCategory from "../components/Category/AddCategory";
+import UpdateCategory from "../components/Category/UpdateCategory";
 // import useAuth from "../hooks/UseAuthorise";
 
 const Dashboard = () => {
@@ -52,23 +53,18 @@ const Dashboard = () => {
   };
   return (
     <>
-      <div className="flex h-screen">
+      <div className=" container flex h-full">
         <div>
           <Sidebar user={user} logout={logout} />
         </div>
-        {/* <div className="container ml-5">
-          <h2>Welcome to the Dashboard</h2>
-          <h3>Name:{user.username}</h3>
-          <h4>Email:{user.email}</h4>
-          <h4>Role:{user.role}</h4>
-        </div> */}
-        <div className="container ml-5">
-        <Routes>
-          <Route path="products" element={<ProductCard/>} />
-          <Route path="showcart" element={<ShowCart/>} />
-          <Route path="addproduct" element={<AddProduct user={user}/>} />
-          <Route path="addcategory" element={<AddCategory/>} />
-        </Routes>
+        <div className="container  h-screen">
+          <Routes>
+          <Route path="showcart" element={<ShowCart />} />
+            <Route path="products" element={<ProductCard />} />
+            <Route path="addproduct" element={<AddProduct user={user} />} />
+            <Route path="addcategory" element={<AddCategory />} />
+            <Route path="updatecategory" element={<UpdateCategory/>} />
+          </Routes>
         </div>
       </div>
     </>

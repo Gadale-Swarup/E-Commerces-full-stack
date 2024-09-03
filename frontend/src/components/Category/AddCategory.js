@@ -73,20 +73,14 @@ const AddCategory = () => {
       {categories.length > 0 ? (
         <div className="mb-4">
           <h3 className="text-lg font-semibold text-gray-700 mb-2">Existing Categories</h3>
-          <table className="w-full bg-white border border-gray-200 rounded-lg shadow-md">
-            <thead>
-              <tr className="border-b border-gray-300">
-                <th className="px-4 py-2 text-left text-gray-600">Category Name</th>
-              </tr>
-            </thead>
-            <tbody>
-              {categories.map((cat,i) => (
-                <tr key={i}>
-                  <td className="px-4 py-2 border-b border-gray-200">{cat.CategoryName}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+          <select
+          className="w-full px-4 py-2 border border-gray-300 text-gray-800 bg-white rounded-md mb-4"
+          >
+            {/* <option value=''>Views Categories </option> */}
+            {categories.map((cat)=>(
+              <option>{cat.CategoryName}</option>
+            ))}
+          </select>
         </div>
       ) : (
         <p className="text-gray-600">No categories available.</p>
